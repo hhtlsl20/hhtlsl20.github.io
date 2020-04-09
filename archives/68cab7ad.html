@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.gif">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lsl20.gitee.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="新冠疫情可视化 请根据课上所学内容，爬取3月31日当天丁香园公开的统计数据，根据累计确诊数，使用pyecharts绘制疫情分布图，如下图所示，提交截图。 Pycharts api可参考：https:&#x2F;&#x2F;pyecharts.org&#x2F;#&#x2F;zh-cn&#x2F;         可视化，是一种利用计算机图形学和图像处理技术，将数据转换成图像在屏幕上显示出来，再进行交互处理的理论、方法和技术。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="百度深度学习第一天：可视化">
+<meta property="og:url" content="https://lsl20.gitee.io/archives/68cab7ad.html">
+<meta property="og:site_name" content="海涛博客">
+<meta property="og:description" content="新冠疫情可视化 请根据课上所学内容，爬取3月31日当天丁香园公开的统计数据，根据累计确诊数，使用pyecharts绘制疫情分布图，如下图所示，提交截图。 Pycharts api可参考：https:&#x2F;&#x2F;pyecharts.org&#x2F;#&#x2F;zh-cn&#x2F;         可视化，是一种利用计算机图形学和图像处理技术，将数据转换成图像在屏幕上显示出来，再进行交互处理的理论、方法和技术。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/24a15aae792b49ecb4b11aa30530e97691a092ef2af94f9f97751826096b4cc8">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/3ca5fa8e7019498ab7217aea7a552f0394ff092045174b9284920dbee57b0c1a">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/28000edb58d34e2e991b6dc2739007ae837b9b031d8842528c9d9506941fbd17">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/dc6f8d74e83a49ccb2ce5d0c2d8518fc7e731d1d203a4ec4ace84d6aacf73910">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/50c6c84213f54b63bf55a1c3408ae30e34465092d8024e859bc37c40a01f83e2">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/76efa5075f9e40a48c703c28a72785c1e13602ffaec343049387a5b1253f10d4">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/d3bdb77498354c4e819d9cd859e00c3b765b621551f941feb79f68bf8d1bdd6d">
+<meta property="article:published_time" content="2020-03-31T13:17:35.000Z">
+<meta property="article:modified_time" content="2020-04-09T11:46:08.713Z">
+<meta property="article:author" content="海涛">
+<meta property="article:tag" content="百度深度学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ai-studio-static-online.cdn.bcebos.com/24a15aae792b49ecb4b11aa30530e97691a092ef2af94f9f97751826096b4cc8">
+
+<link rel="canonical" href="https://lsl20.gitee.io/archives/68cab7ad.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>百度深度学习第一天：可视化 | 海涛博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="海涛博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">海涛博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">个人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-movies">
+
+    <a href="/movies/" rel="section"><i class="fa fa-fw fa-film"></i>电影</a>
+
+  </li>
+        <li class="menu-item menu-item-books">
+
+    <a href="/books/" rel="section"><i class="fa fa-fw fa-book"></i>书籍</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+        <li class="menu-item menu-item-top">
+
+    <a href="/top/" rel="section"><i class="fa fa-fw fa-signal"></i>阅读排行</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+<!-- 打字礼花及震动特效 -->
+
+<div id="append_parent"></div><div id="ajaxwaitid"></div>
+<script type="text/javascript" src="/lib/activate-power-mode.js"></script>
+<script>
+	POWERMODE.colorful = true;
+	POWERMODE.shake = false;
+	document.body.addEventListener('input',POWERMODE);
+</script>
+<!-- 鼠标点击特效 -->
+<script async src="/lib/fireworks.js"></script>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lsl20.gitee.io/archives/68cab7ad.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar1.gif">
+      <meta itemprop="name" content="海涛">
+      <meta itemprop="description" content="学习上的一些坑记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="海涛博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          百度深度学习第一天：可视化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-31 13:17:35" itemprop="dateCreated datePublished" datetime="2020-03-31T13:17:35Z">2020-03-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-09 11:46:08" itemprop="dateModified" datetime="2020-04-09T11:46:08Z">2020-04-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8F%AF%E8%A7%86%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">可视化</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/archives/68cab7ad.html" class="post-meta-item leancloud_visitors" data-flag-title="百度深度学习第一天：可视化" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/68cab7ad.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/68cab7ad.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>新冠疫情可视化</strong></p>
+<p>请根据课上所学内容，爬取3月31日当天丁香园公开的统计数据，根据累计确诊数，使用pyecharts绘制疫情分布图，如下图所示，<strong>提交截图。</strong></p>
+<p>Pycharts api可参考：<a href="https://pyecharts.org/#/zh-cn/" target="_blank" rel="noopener external nofollow noreferrer">https://pyecharts.org/#/zh-cn/</a></p>
+<img src="https://ai-studio-static-online.cdn.bcebos.com/24a15aae792b49ecb4b11aa30530e97691a092ef2af94f9f97751826096b4cc8" height="200" width="400" />
+
+
+
+
+
+
+
+<p>可视化，是一种利用计算机图形学和图像处理技术，将数据转换成图像在屏幕上显示出来，再进行交互处理的理论、方法和技术。</p>
+<a id="more"></a>
+
+<p><strong>本次实践基于丁香园公开的统计数据，实现新冠疫情可视化，包括疫情地图、疫情增长趋势图、疫情分布图等。</strong><br><br /><br><br /></p>
+<p><strong>全国疫情地图如下：</strong></p>
+<img src="https://ai-studio-static-online.cdn.bcebos.com/3ca5fa8e7019498ab7217aea7a552f0394ff092045174b9284920dbee57b0c1a" height="500" width="500" />
+
+<br />
+<br />
+<br />
+<br />
+
+<p><strong>疫情增长趋势图如下：</strong></p>
+<img src="https://ai-studio-static-online.cdn.bcebos.com/28000edb58d34e2e991b6dc2739007ae837b9b031d8842528c9d9506941fbd17" height="500" width="600" />
+
+
+
+
+
+
+
+<h1 id="一、数据准备"><a href="#一、数据准备" class="headerlink" title="一、数据准备"></a>一、数据准备</h1><p>上网的全过程:</p>
+<ul>
+<li><p>普通用户</p>
+<p>打开浏览器 –&gt; 往目标站点发送请求 –&gt; 接收响应数据 –&gt; 渲染到页面上。</p>
+</li>
+</ul>
+<ul>
+<li>爬虫程序</li>
+</ul>
+<p>模拟浏览器 –&gt; 往目标站点发送请求 –&gt; 接收响应数据 –&gt; 提取有用的数据 –&gt; 保存到本地/数据库。</p>
+<br />
+
+<p>爬虫的过程：</p>
+<p>1.发送请求（requests模块）</p>
+<p>2.获取响应数据（服务器返回）</p>
+<p>3.解析并提取数据（re正则）</p>
+<p>4.保存数据</p>
+<p><strong>request模块：</strong></p>
+<p>requests是python实现的简单易用的HTTP库，官网地址：<a href="http://cn.python-requests.org/zh_CN/latest/" target="_blank" rel="noopener external nofollow noreferrer">http://cn.python-requests.org/zh_CN/latest/</a></p>
+<p><strong>re模块：</strong></p>
+<p>re模块是python用于匹配字符串的模块，该模块中提供的很多功能是基于正则表达式实现的，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">today = datetime.date.today().strftime(<span class="string">'%Y%m%d'</span>)   <span class="comment">#20200315</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crawl_dxy_data</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    爬取丁香园实时统计数据，保存到data目录下，以当前日期作为文件名，存JSON文件</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    response = requests.get(<span class="string">'https://ncov.dxy.cn/ncovh5/view/pneumonia'</span>) <span class="comment">#request.get()用于请求目标网站</span></span><br><span class="line">    print(response.status_code)                                          <span class="comment"># 打印状态码</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        url_text = response.content.decode()                             <span class="comment">#更推荐使用response.content.deocde()的方式获取响应的html页面</span></span><br><span class="line">        <span class="comment">#print(url_text)</span></span><br><span class="line">        url_content = re.search(<span class="string">r'window.getAreaStat = (.*?)&#125;]&#125;catch'</span>,   <span class="comment">#re.search():扫描字符串以查找正则表达式模式产生匹配项的第一个位置 ，然后返回相应的match对象。</span></span><br><span class="line">                                url_text, re.S)                          <span class="comment">#在字符串a中，包含换行符\n，在这种情况下：如果不使用re.S参数，则只在每一行内进行匹配，如果一行没有，就换下一行重新开始;</span></span><br><span class="line">                                                                         <span class="comment">#而使用re.S参数以后，正则表达式会将这个字符串作为一个整体，在整体中进行匹配。</span></span><br><span class="line">        texts = url_content.group()                                      <span class="comment">#获取匹配正则表达式的整体结果</span></span><br><span class="line">        content = texts.replace(<span class="string">'window.getAreaStat = '</span>, <span class="string">''</span>).replace(<span class="string">'&#125;catch'</span>, <span class="string">''</span>) <span class="comment">#去除多余的字符</span></span><br><span class="line">        json_data = json.loads(content)                                         </span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'data/'</span> + today + <span class="string">'.json'</span>, <span class="string">'w'</span>, encoding=<span class="string">'UTF-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            json.dump(json_data, f, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">'&lt;Response [%s]&gt;'</span> % response.status_code)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crawl_statistics_data</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    获取各个省份历史统计数据，保存到data目录下，存JSON文件</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'data/'</span>+ today + <span class="string">'.json'</span>, <span class="string">'r'</span>, encoding=<span class="string">'UTF-8'</span>) <span class="keyword">as</span> file:</span><br><span class="line">        json_array = json.loads(file.read())</span><br><span class="line"></span><br><span class="line">    statistics_data = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> province <span class="keyword">in</span> json_array:</span><br><span class="line">        response = requests.get(province[<span class="string">'statisticsData'</span>])</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            statistics_data[province[<span class="string">'provinceShortName'</span>]] = json.loads(response.content.decode())[<span class="string">'data'</span>]</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">'&lt;Response [%s]&gt; for url: [%s]'</span> % (response.status_code, province[<span class="string">'statisticsData'</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"data/statistics_data.json"</span>, <span class="string">"w"</span>, encoding=<span class="string">'UTF-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        json.dump(statistics_data, f, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    crawl_dxy_data()</span><br><span class="line">    crawl_statistics_data()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">200</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">安装第三方库pyecharts ，如果下载时出现断线和速度过慢的问题导致下载失败，可以尝试使用清华镜像</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment">#!pip install pyecharts</span></span><br><span class="line">!pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyecharts</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Looking in indexes: https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple</span><br><span class="line">Requirement already satisfied: pyecharts in &#x2F;opt&#x2F;conda&#x2F;envs&#x2F;python35-paddle120-env&#x2F;lib&#x2F;python3.7&#x2F;site-packages (1.7.1)</span><br><span class="line">Requirement already satisfied: prettytable in &#x2F;opt&#x2F;conda&#x2F;envs&#x2F;python35-paddle120-env&#x2F;lib&#x2F;python3.7&#x2F;site-packages (from pyecharts) (0.7.2)</span><br><span class="line">Requirement already satisfied: simplejson in &#x2F;opt&#x2F;conda&#x2F;envs&#x2F;python35-paddle120-env&#x2F;lib&#x2F;python3.7&#x2F;site-packages (from pyecharts) (3.17.0)</span><br><span class="line">Requirement already satisfied: jinja2 in &#x2F;opt&#x2F;conda&#x2F;envs&#x2F;python35-paddle120-env&#x2F;lib&#x2F;python3.7&#x2F;site-packages (from pyecharts) (2.10.3)</span><br><span class="line">Requirement already satisfied: MarkupSafe&gt;&#x3D;0.23 in &#x2F;opt&#x2F;conda&#x2F;envs&#x2F;python35-paddle120-env&#x2F;lib&#x2F;python3.7&#x2F;site-packages (from jinja2-&gt;pyecharts) (1.1.1)</span><br></pre></td></tr></table></figure>
+
+<h1 id="二、疫情地图"><a href="#二、疫情地图" class="headerlink" title="二、疫情地图"></a>二、疫情地图</h1><p>Echarts 是一个由百度开源的数据可视化工具，凭借着良好的交互性，精巧的图表设计，得到了众多开发者的认可。而 Python 是一门富有表达力的语言，很适合用于数据处理。当数据分析遇上数据可视化时，<strong>pyecharts</strong> 诞生了。pyecharts api可以参考：<a href="https://pyecharts.org/#/zh-cn/chart_api" target="_blank" rel="noopener external nofollow noreferrer">https://pyecharts.org/#/zh-cn/chart_api</a></p>
+<br />
+<br/>
+
+<p><strong>使用 options 配置项，在 pyecharts 中，一切皆 Options。</strong></p>
+<p>主要分为全局配置组件和系列配置组件。</p>
+<p>（1）系列配置项 set_series_opts(),可配置图元样式、文字样式、标签样式、点线样式等；   </p>
+<p>（2）全局配置项 set_global_opts()，可配置标题、动画、坐标轴、图例等;                       </p>
+<p>先来认识下全局配置组件吧</p>
+<img src="https://ai-studio-static-online.cdn.bcebos.com/dc6f8d74e83a49ccb2ce5d0c2d8518fc7e731d1d203a4ec4ace84d6aacf73910" height="600" width="700" />
+
+
+
+<h1 id="2-1全国疫情地图"><a href="#2-1全国疫情地图" class="headerlink" title="2.1全国疫情地图"></a>2.1全国疫情地图</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Map</span><br><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读原始数据文件</span></span><br><span class="line">today = datetime.date.today().strftime(<span class="string">'%Y%m%d'</span>)   <span class="comment">#20200315</span></span><br><span class="line">datafile = <span class="string">'data/'</span>+ today + <span class="string">'.json'</span></span><br><span class="line"><span class="keyword">with</span> open(datafile, <span class="string">'r'</span>, encoding=<span class="string">'UTF-8'</span>) <span class="keyword">as</span> file:</span><br><span class="line">    json_array = json.loads(file.read())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析全国实时确诊数据：'confirmedCount'字段</span></span><br><span class="line">china_data = []</span><br><span class="line"><span class="keyword">for</span> province <span class="keyword">in</span> json_array:</span><br><span class="line">    china_data.append((province[<span class="string">'provinceShortName'</span>], province[<span class="string">'confirmedCount'</span>]))</span><br><span class="line">china_data = sorted(china_data, key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>], reverse=<span class="literal">True</span>)                 <span class="comment">#reverse=True,表示降序，反之升序</span></span><br><span class="line"></span><br><span class="line">print(china_data)</span><br><span class="line"><span class="comment"># 全国疫情地图</span></span><br><span class="line"><span class="comment"># 自定义的每一段的范围，以及每一段的特别的样式。</span></span><br><span class="line">pieces = [</span><br><span class="line">    &#123;<span class="string">'min'</span>: <span class="number">10000</span>, <span class="string">'color'</span>: <span class="string">'#540d0d'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">9999</span>, <span class="string">'min'</span>: <span class="number">1000</span>, <span class="string">'color'</span>: <span class="string">'#9c1414'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">999</span>, <span class="string">'min'</span>: <span class="number">500</span>, <span class="string">'color'</span>: <span class="string">'#d92727'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">499</span>, <span class="string">'min'</span>: <span class="number">100</span>, <span class="string">'color'</span>: <span class="string">'#ed3232'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">99</span>, <span class="string">'min'</span>: <span class="number">10</span>, <span class="string">'color'</span>: <span class="string">'#f27777'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">9</span>, <span class="string">'min'</span>: <span class="number">1</span>, <span class="string">'color'</span>: <span class="string">'#f7adad'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">0</span>, <span class="string">'color'</span>: <span class="string">'#f7e4e4'</span>&#125;,</span><br><span class="line">]</span><br><span class="line">labels = [data[<span class="number">0</span>] <span class="keyword">for</span> data <span class="keyword">in</span> china_data]</span><br><span class="line">counts = [data[<span class="number">1</span>] <span class="keyword">for</span> data <span class="keyword">in</span> china_data]</span><br><span class="line"></span><br><span class="line">m = Map()</span><br><span class="line">m.add(<span class="string">"累计确诊"</span>, [list(z) <span class="keyword">for</span> z <span class="keyword">in</span> zip(labels, counts)], <span class="string">'china'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#系列配置项,可配置图元样式、文字样式、标签样式、点线样式等</span></span><br><span class="line">m.set_series_opts(label_opts=opts.LabelOpts(font_size=<span class="number">12</span>),</span><br><span class="line">                  is_show=<span class="literal">False</span>)</span><br><span class="line"><span class="comment">#全局配置项,可配置标题、动画、坐标轴、图例等</span></span><br><span class="line">m.set_global_opts(title_opts=opts.TitleOpts(title=<span class="string">'全国实时确诊数据'</span>,</span><br><span class="line">                                            subtitle=<span class="string">'数据来源：丁香园'</span>),</span><br><span class="line">                  legend_opts=opts.LegendOpts(is_show=<span class="literal">False</span>),</span><br><span class="line">                  visualmap_opts=opts.VisualMapOpts(pieces=pieces,</span><br><span class="line">                                                    is_piecewise=<span class="literal">True</span>,   <span class="comment">#是否为分段型</span></span><br><span class="line">                                                    is_show=<span class="literal">True</span>))       <span class="comment">#是否显示视觉映射配置</span></span><br><span class="line"><span class="comment">#render（）会生成本地 HTML 文件，默认会在当前目录生成 render.html 文件，也可以传入路径参数，如 m.render("mycharts.html")</span></span><br><span class="line">m.render(path=<span class="string">'/home/aistudio/data/全国实时确诊数据.html'</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(&#39;湖北&#39;, 67801), (&#39;广东&#39;, 1494), (&#39;河南&#39;, 1276), (&#39;浙江&#39;, 1257), (&#39;湖南&#39;, 1018), (&#39;安徽&#39;, 990), (&#39;江西&#39;, 937), (&#39;山东&#39;, 774), (&#39;香港&#39;, 714), (&#39;江苏&#39;, 646), (&#39;北京&#39;, 580), (&#39;重庆&#39;, 579), (&#39;四川&#39;, 552), (&#39;上海&#39;, 516), (&#39;黑龙江&#39;, 484), (&#39;福建&#39;, 343), (&#39;河北&#39;, 323), (&#39;台湾&#39;, 322), (&#39;陕西&#39;, 255), (&#39;广西&#39;, 254), (&#39;云南&#39;, 182), (&#39;天津&#39;, 174), (&#39;海南&#39;, 168), (&#39;贵州&#39;, 147), (&#39;辽宁&#39;, 140), (&#39;甘肃&#39;, 138), (&#39;山西&#39;, 137), (&#39;内蒙古&#39;, 107), (&#39;吉林&#39;, 98), (&#39;新疆&#39;, 76), (&#39;宁夏&#39;, 75), (&#39;澳门&#39;, 41), (&#39;青海&#39;, 18), (&#39;西藏&#39;, 1)]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#x2F;home&#x2F;aistudio&#x2F;data&#x2F;全国实时确诊数据.html&#39;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="2-2湖北省疫情地图"><a href="#2-2湖北省疫情地图" class="headerlink" title="2.2湖北省疫情地图"></a>2.2湖北省疫情地图</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Map</span><br><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读原始数据文件</span></span><br><span class="line">today = datetime.date.today().strftime(<span class="string">'%Y%m%d'</span>)   <span class="comment">#20200315</span></span><br><span class="line">datafile = <span class="string">'data/'</span>+ today + <span class="string">'.json'</span></span><br><span class="line"><span class="keyword">with</span> open(datafile, <span class="string">'r'</span>, encoding=<span class="string">'UTF-8'</span>) <span class="keyword">as</span> file:</span><br><span class="line">    json_array = json.loads(file.read())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析湖北省实时确诊数据</span></span><br><span class="line"><span class="comment"># 读入规范化的城市名称，用于规范化丁香园数据中的城市简称</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'/home/aistudio/data/data24815/pycharts_city.txt'</span>, <span class="string">'r'</span>, encoding=<span class="string">'UTF-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    defined_cities = [line.strip() <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">format_city_name</span><span class="params">(name, defined_cities)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> defined_city <span class="keyword">in</span> defined_cities:</span><br><span class="line">        <span class="keyword">if</span> len((set(defined_city) &amp; set(name))) == len(name):</span><br><span class="line">            name = defined_city</span><br><span class="line">            <span class="keyword">if</span> name.endswith(<span class="string">'市'</span>) <span class="keyword">or</span> name.endswith(<span class="string">'区'</span>) <span class="keyword">or</span> name.endswith(<span class="string">'县'</span>) <span class="keyword">or</span> name.endswith(<span class="string">'自治州'</span>):</span><br><span class="line">                <span class="keyword">return</span> name</span><br><span class="line">            <span class="keyword">return</span> name + <span class="string">'市'</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">province_name = <span class="string">'湖北'</span></span><br><span class="line"><span class="keyword">for</span> province <span class="keyword">in</span> json_array:</span><br><span class="line">    <span class="keyword">if</span> province[<span class="string">'provinceName'</span>] == province_name <span class="keyword">or</span> province[<span class="string">'provinceShortName'</span>] == province_name:</span><br><span class="line">        json_array_province = province[<span class="string">'cities'</span>]</span><br><span class="line">        hubei_data = [(format_city_name(city[<span class="string">'cityName'</span>], defined_cities), city[<span class="string">'confirmedCount'</span>]) <span class="keyword">for</span> city <span class="keyword">in</span></span><br><span class="line">                      json_array_province]</span><br><span class="line">        hubei_data = sorted(hubei_data, key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>], reverse=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        print(hubei_data)</span><br><span class="line"></span><br><span class="line">labels = [data[<span class="number">0</span>] <span class="keyword">for</span> data <span class="keyword">in</span> hubei_data]</span><br><span class="line">counts = [data[<span class="number">1</span>] <span class="keyword">for</span> data <span class="keyword">in</span> hubei_data]</span><br><span class="line">pieces = [</span><br><span class="line">    &#123;<span class="string">'min'</span>: <span class="number">10000</span>, <span class="string">'color'</span>: <span class="string">'#540d0d'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">9999</span>, <span class="string">'min'</span>: <span class="number">1000</span>, <span class="string">'color'</span>: <span class="string">'#9c1414'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">999</span>, <span class="string">'min'</span>: <span class="number">500</span>, <span class="string">'color'</span>: <span class="string">'#d92727'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">499</span>, <span class="string">'min'</span>: <span class="number">100</span>, <span class="string">'color'</span>: <span class="string">'#ed3232'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">99</span>, <span class="string">'min'</span>: <span class="number">10</span>, <span class="string">'color'</span>: <span class="string">'#f27777'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">9</span>, <span class="string">'min'</span>: <span class="number">1</span>, <span class="string">'color'</span>: <span class="string">'#f7adad'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'max'</span>: <span class="number">0</span>, <span class="string">'color'</span>: <span class="string">'#f7e4e4'</span>&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">m = Map()</span><br><span class="line">m.add(<span class="string">"累计确诊"</span>, [list(z) <span class="keyword">for</span> z <span class="keyword">in</span> zip(labels, counts)], <span class="string">'湖北'</span>)</span><br><span class="line">m.set_series_opts(label_opts=opts.LabelOpts(font_size=<span class="number">12</span>),</span><br><span class="line">                  is_show=<span class="literal">False</span>)</span><br><span class="line">m.set_global_opts(title_opts=opts.TitleOpts(title=<span class="string">'湖北省实时确诊数据'</span>,</span><br><span class="line">                                            subtitle=<span class="string">'数据来源：丁香园'</span>),</span><br><span class="line">                  legend_opts=opts.LegendOpts(is_show=<span class="literal">False</span>),</span><br><span class="line">                  visualmap_opts=opts.VisualMapOpts(pieces=pieces,</span><br><span class="line">                                                    is_piecewise=<span class="literal">True</span>,</span><br><span class="line">                                                    is_show=<span class="literal">True</span>))</span><br><span class="line">m.render(path=<span class="string">'/home/aistudio/data/湖北省实时确诊数据.html'</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(&#39;武汉市&#39;, 50006), (&#39;孝感市&#39;, 3518), (&#39;黄冈市&#39;, 2907), (&#39;荆州市&#39;, 1580), (&#39;鄂州市&#39;, 1394), (&#39;随州市&#39;, 1307), (&#39;襄阳市&#39;, 1175), (&#39;黄石市&#39;, 1015), (&#39;宜昌市&#39;, 931), (&#39;荆门市&#39;, 928), (&#39;咸宁市&#39;, 836), (&#39;十堰市&#39;, 672), (&#39;仙桃市&#39;, 575), (&#39;天门市&#39;, 496), (&#39;恩施土家族苗族自治州&#39;, 252), (&#39;潜江市&#39;, 198), (&#39;神农架林区&#39;, 11)]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#x2F;home&#x2F;aistudio&#x2F;data&#x2F;湖北省实时确诊数据.html&#39;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="三、疫情增长趋势图"><a href="#三、疫情增长趋势图" class="headerlink" title="三、疫情增长趋势图"></a>三、疫情增长趋势图</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Line</span><br><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读原始数据文件</span></span><br><span class="line">datafile = <span class="string">'data/statistics_data.json'</span></span><br><span class="line"><span class="keyword">with</span> open(datafile, <span class="string">'r'</span>, encoding=<span class="string">'UTF-8'</span>) <span class="keyword">as</span> file:</span><br><span class="line">    json_dict = json.loads(file.read())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析各省份2月1日至今的新增确诊数据：'confirmedIncr'</span></span><br><span class="line">statistics__data = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> province <span class="keyword">in</span> json_dict:</span><br><span class="line">    statistics__data[province] = []</span><br><span class="line">    <span class="keyword">for</span> da <span class="keyword">in</span> json_dict[province]:</span><br><span class="line">        <span class="keyword">if</span> da[<span class="string">'dateId'</span>] &gt;= <span class="number">20200201</span>:</span><br><span class="line">            statistics__data[province].append(da[<span class="string">'confirmedIncr'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取日期列表</span></span><br><span class="line">dateId = [str(da[<span class="string">'dateId'</span>])[<span class="number">4</span>:<span class="number">6</span>] + <span class="string">'-'</span> + str(da[<span class="string">'dateId'</span>])[<span class="number">6</span>:<span class="number">8</span>] <span class="keyword">for</span> da <span class="keyword">in</span> json_dict[<span class="string">'湖北'</span>] <span class="keyword">if</span></span><br><span class="line">          da[<span class="string">'dateId'</span>] &gt;= <span class="number">20200201</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 全国新增趋势</span></span><br><span class="line">all_statis = np.array([<span class="number">0</span>] * len(dateId))</span><br><span class="line"><span class="keyword">for</span> province <span class="keyword">in</span> statistics__data:</span><br><span class="line">    all_statis = all_statis + np.array(statistics__data[province])</span><br><span class="line"></span><br><span class="line">all_statis = all_statis.tolist()</span><br><span class="line"><span class="comment"># 湖北新增趋势</span></span><br><span class="line">hubei_statis = statistics__data[<span class="string">'湖北'</span>]</span><br><span class="line"><span class="comment"># 湖北以外的新增趋势</span></span><br><span class="line">other_statis = [all_statis[i] - hubei_statis[i] <span class="keyword">for</span> i <span class="keyword">in</span> range(len(dateId))]</span><br><span class="line"></span><br><span class="line">line = Line()</span><br><span class="line">line.add_xaxis(dateId)</span><br><span class="line">line.add_yaxis(<span class="string">"全国新增确诊病例"</span>,   <span class="comment">#图例</span></span><br><span class="line">                all_statis,       <span class="comment">#数据</span></span><br><span class="line">                is_smooth=<span class="literal">True</span>,   <span class="comment">#是否平滑曲线</span></span><br><span class="line">               linestyle_opts=opts.LineStyleOpts(width=<span class="number">4</span>, color=<span class="string">'#B44038'</span>),<span class="comment">#线样式配置项</span></span><br><span class="line">               itemstyle_opts=opts.ItemStyleOpts(color=<span class="string">'#B44038'</span>,          <span class="comment">#图元样式配置项</span></span><br><span class="line">                                                 border_color=<span class="string">"#B44038"</span>,   <span class="comment">#颜色</span></span><br><span class="line">                                                 border_width=<span class="number">10</span>))         <span class="comment">#图元的大小</span></span><br><span class="line">line.add_yaxis(<span class="string">"湖北新增确诊病例"</span>, hubei_statis, is_smooth=<span class="literal">True</span>,</span><br><span class="line">               linestyle_opts=opts.LineStyleOpts(width=<span class="number">2</span>, color=<span class="string">'#4E87ED'</span>),</span><br><span class="line">               label_opts=opts.LabelOpts(position=<span class="string">'bottom'</span>),              <span class="comment">#标签在折线的底部</span></span><br><span class="line">               itemstyle_opts=opts.ItemStyleOpts(color=<span class="string">'#4E87ED'</span>,</span><br><span class="line">                                                 border_color=<span class="string">"#4E87ED"</span>,</span><br><span class="line">                                                 border_width=<span class="number">3</span>))</span><br><span class="line">line.add_yaxis(<span class="string">"其他省份新增病例"</span>, other_statis, is_smooth=<span class="literal">True</span>,</span><br><span class="line">               linestyle_opts=opts.LineStyleOpts(width=<span class="number">2</span>, color=<span class="string">'#F1A846'</span>),</span><br><span class="line">               label_opts=opts.LabelOpts(position=<span class="string">'bottom'</span>),              <span class="comment">#标签在折线的底部</span></span><br><span class="line">               itemstyle_opts=opts.ItemStyleOpts(color=<span class="string">'#F1A846'</span>,</span><br><span class="line">                                                 border_color=<span class="string">"#F1A846"</span>,</span><br><span class="line">                                                 border_width=<span class="number">3</span>))</span><br><span class="line">line.set_global_opts(title_opts=opts.TitleOpts(title=<span class="string">"新增确诊病例"</span>, subtitle=<span class="string">'数据来源：丁香园'</span>),</span><br><span class="line">                     yaxis_opts=opts.AxisOpts(max_=<span class="number">16000</span>, min_=<span class="number">1</span>, type_=<span class="string">"log"</span>,    <span class="comment">#坐标轴配置项</span></span><br><span class="line">                                              splitline_opts=opts.SplitLineOpts(is_show=<span class="literal">True</span>),<span class="comment">#分割线配置项</span></span><br><span class="line">                                              axisline_opts=opts.AxisLineOpts(is_show=<span class="literal">True</span>)))<span class="comment">#坐标轴刻度线配置项</span></span><br><span class="line">line.render(path=<span class="string">'/home/aistudio/data/新增确诊趋势图.html'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#x2F;home&#x2F;aistudio&#x2F;data&#x2F;新增确诊趋势图.html&#39;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="请在以下cell中完成作业"><a href="#请在以下cell中完成作业" class="headerlink" title="请在以下cell中完成作业"></a>请在以下cell中完成作业</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Pie</span><br><span class="line"><span class="keyword">from</span> pyecharts.faker <span class="keyword">import</span> Faker</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Map</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读原始数据文件</span></span><br><span class="line">today = datetime.date.today().strftime(<span class="string">'%Y%m%d'</span>)   <span class="comment">#20200315</span></span><br><span class="line">datafile = <span class="string">'data/'</span>+ today + <span class="string">'.json'</span></span><br><span class="line"><span class="keyword">with</span> open(datafile, <span class="string">'r'</span>, encoding=<span class="string">'UTF-8'</span>) <span class="keyword">as</span> file:</span><br><span class="line">    json_array = json.loads(file.read())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析全国实时确诊数据：'confirmedCount'字段</span></span><br><span class="line">china_data = []</span><br><span class="line"><span class="keyword">for</span> province <span class="keyword">in</span> json_array:</span><br><span class="line">    china_data.append((province[<span class="string">'provinceShortName'</span>], province[<span class="string">'confirmedCount'</span>]))</span><br><span class="line">china_data = sorted(china_data, key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>], reverse=<span class="literal">True</span>)                 <span class="comment">#reverse=True,表示降序，反之升序</span></span><br><span class="line">labels = [data[<span class="number">0</span>] <span class="keyword">for</span> data <span class="keyword">in</span> china_data]</span><br><span class="line">counts = [data[<span class="number">1</span>] <span class="keyword">for</span> data <span class="keyword">in</span> china_data]</span><br><span class="line"></span><br><span class="line">c = (</span><br><span class="line">    Pie(init_opts=opts.InitOpts(width=<span class="string">"1100px"</span>, height=<span class="string">"950px"</span>))</span><br><span class="line">    .add(</span><br><span class="line">        <span class="string">""</span>,</span><br><span class="line">        [list(z) <span class="keyword">for</span> z <span class="keyword">in</span> zip(labels, counts)],</span><br><span class="line">        center=[<span class="string">"45%"</span>, <span class="string">"50%"</span>],</span><br><span class="line">    )</span><br><span class="line">    .set_global_opts(</span><br><span class="line">        title_opts=opts.TitleOpts(title=<span class="string">"全国疫情情况"</span>),</span><br><span class="line">        legend_opts=opts.LegendOpts(pos_left=<span class="string">"right"</span>, orient=<span class="string">"vertical"</span>),</span><br><span class="line">    )</span><br><span class="line">    .set_series_opts(label_opts=opts.LabelOpts(formatter=<span class="string">"&#123;b&#125;: &#123;c&#125;"</span>))</span><br><span class="line">    .render(<span class="string">"/home/aistudio/data/疫情饼图.html"</span>)</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="请将作业截图进行上传"><a href="#请将作业截图进行上传" class="headerlink" title="请将作业截图进行上传"></a>请将作业截图进行上传</h1><p><img src="https://ai-studio-static-online.cdn.bcebos.com/50c6c84213f54b63bf55a1c3408ae30e34465092d8024e859bc37c40a01f83e2" alt=""><br><img src="https://ai-studio-static-online.cdn.bcebos.com/76efa5075f9e40a48c703c28a72785c1e13602ffaec343049387a5b1253f10d4" alt=""><br><img src="https://ai-studio-static-online.cdn.bcebos.com/d3bdb77498354c4e819d9cd859e00c3b765b621551f941feb79f68bf8d1bdd6d" alt=""></p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章推荐</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\archives\fe1fa42d.html" rel="bookmark">百度深度学习第一天：手势识别</a></div>
+    </li>
+  </ul>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>海涛
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://lsl20.gitee.io/archives/68cab7ad.html" title="百度深度学习第一天：可视化">https://lsl20.gitee.io/archives/68cab7ad.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%99%BE%E5%BA%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 百度深度学习</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/acc9d925.html" rel="prev" title="友邻优课外刊">
+      <i class="fa fa-chevron-left"></i> 友邻优课外刊
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/fe1fa42d.html" rel="next" title="百度深度学习第一天：手势识别">
+      百度深度学习第一天：手势识别 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、数据准备"><span class="nav-number">1.</span> <span class="nav-text">一、数据准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、疫情地图"><span class="nav-number">2.</span> <span class="nav-text">二、疫情地图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-1全国疫情地图"><span class="nav-number">3.</span> <span class="nav-text">2.1全国疫情地图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-2湖北省疫情地图"><span class="nav-number">4.</span> <span class="nav-text">2.2湖北省疫情地图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、疫情增长趋势图"><span class="nav-number">5.</span> <span class="nav-text">三、疫情增长趋势图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请在以下cell中完成作业"><span class="nav-number">6.</span> <span class="nav-text">请在以下cell中完成作业</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请将作业截图进行上传"><span class="nav-number">7.</span> <span class="nav-text">请将作业截图进行上传</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="海涛"
+      src="/images/avatar1.gif">
+  <p class="site-author-name" itemprop="name">海涛</p>
+  <div class="site-description" itemprop="description">学习上的一些坑记录</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:490840648@qq.com" title="E-Mail → mailto:490840648@qq.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-google"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+  </div>
+
+
+<div style="">
+  <canvas id="canvas" style="width:60%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //声明canvas的宽高
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //存储时间数据
+    var data = [];
+    //存储运动的小球
+    var balls = [];
+    //设置粒子半径
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //存储时间数字，由十位小时、个位小时、冒号、十位分钟、个位分钟、冒号、十位秒钟、个位秒钟这7个数字组成
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*生成点阵数字*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*更新时钟*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //时间发生变化
+            if(NewData[i] !== data[i]){
+                //将变化的数字值和在data数组中的索引存储在changeNumArray数组中
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //增加小球
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*更新小球状态*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*增加要运动的小球*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*渲染*/
+    function render(){
+        //重置画布宽度，达到清空画布的效果
+        canvas.height = 100;
+        //渲染时钟
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //渲染小球
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //更新时钟
+        updateDigitTime();
+        //更新小球状态
+        updateBalls();
+        //渲染
+        render();
+    },50);
+}
+
+})();
+</script>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">海涛</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">50k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">45 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener external nofollow noreferrer" target="_blank">NexT.Pisces</a> 强力驱动
+  </div><div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 24483,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'LWamt8vx1JGEs9ji6vEdxOQL-gzGzoHsz',
+      appKey     : '76tER6xs3NW4vkb9DRLsMzwp',
+      placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : ,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div class="moon-menu-item" onclick="back2bottom()">
+      <i class='fa fa-chevron-down'></i>    </div>
+    
+    <div class="moon-menu-item" onclick="back2top()">
+      <i class='fa fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button" onclick="moonMenuClick()">
+    <svg class="moon-menu-svg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+      <g class="moon-menu-points">
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy="-.8rem"></circle>
+        <circle class="moon-menu-point" r=".2rem"></circle>
+        <circle class="moon-menu-point" r=".2rem" cx="0" cy=".8rem"></circle>
+      </g>
+    </svg>
+    <div class="moon-menu-icon">
+    </div>
+    <div class="moon-menu-text">
+    </div>
+  </div>
+</div>
+<script src="/js/injector.js"></script>
+</body>
+</html>

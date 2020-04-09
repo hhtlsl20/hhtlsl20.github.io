@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>海涛博客</title>
+  <icon>https://lsl20.gitee.io/icon.png</icon>
+  <subtitle>个人笔记</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://lsl20.gitee.io/"/>
+  <updated>2020-04-09T11:46:14.392Z</updated>
+  <id>https://lsl20.gitee.io/</id>
+  
+  <author>
+    <name>海涛</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://lsl20.gitee.io/archives/4a17b156.html"/>
+    <id>https://lsl20.gitee.io/archives/4a17b156.html</id>
+    <published>2020-04-09T04:38:39.231Z</published>
+    <updated>2020-04-09T11:46:14.392Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener external nofollow noreferrer&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener external nofollow noreferrer&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;noopener external nofollow noreferrer&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;noopener external nofollow noreferrer&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&quot;My New Post&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot; target=&quot;_blank&quot; rel=&quot;noopener external nofollow noreferrer&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Run-server&quot;&gt;&lt;a href=&quot;#Run-server&quot; class=&quot;headerlink&quot; title=&quot;Run server&quot;&gt;&lt;/a&gt;Run server&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/server.html&quot; target=&quot;_blank&quot; rel=&quot;noopener external nofollow noreferrer&quot;&gt;Server&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Generate-static-files&quot;&gt;&lt;a href=&quot;#Generate-static-files&quot; class=&quot;headerlink&quot; title=&quot;Generate static files&quot;&gt;&lt;/a&gt;Generate static files&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo generate&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>百度深度学习第一天：手势识别</title>
+    <link href="https://lsl20.gitee.io/archives/fe1fa42d.html"/>
+    <id>https://lsl20.gitee.io/archives/fe1fa42d.html</id>
+    <published>2020-04-02T14:32:57.000Z</published>
+    <updated>2020-04-09T11:46:06.853Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+    
+      <category term="手势识别" scheme="https://lsl20.gitee.io/categories/%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB/"/>
+    
+    
+      <category term="百度深度学习" scheme="https://lsl20.gitee.io/tags/%E7%99%BE%E5%BA%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>百度深度学习第一天：可视化</title>
+    <link href="https://lsl20.gitee.io/archives/68cab7ad.html"/>
+    <id>https://lsl20.gitee.io/archives/68cab7ad.html</id>
+    <published>2020-03-31T13:17:35.000Z</published>
+    <updated>2020-04-09T11:46:08.713Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;新冠疫情可视化&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;请根据课上所学内容，爬取3月31日当天丁香园公开的统计数据，根据累计确诊数，使用pyecharts绘制疫情分布图，如下图所示，&lt;strong&gt;提交截图。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Pycharts api可参考：&lt;a href=&quot;https://pyecharts.org/#/zh-cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener external nofollow noreferrer&quot;&gt;https://pyecharts.org/#/zh-cn/&lt;/a&gt;&lt;/p&gt;
+&lt;img src=&quot;https://ai-studio-static-online.cdn.bcebos.com/24a15aae792b49ecb4b11aa30530e97691a092ef2af94f9f97751826096b4cc8&quot; height=&quot;200&quot; width=&quot;400&quot; /&gt;
+
+
+
+
+
+
+
+&lt;p&gt;可视化，是一种利用计算机图形学和图像处理技术，将数据转换成图像在屏幕上显示出来，再进行交互处理的理论、方法和技术。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="可视化" scheme="https://lsl20.gitee.io/categories/%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
+    
+    
+      <category term="百度深度学习" scheme="https://lsl20.gitee.io/tags/%E7%99%BE%E5%BA%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>友邻优课外刊</title>
+    <link href="https://lsl20.gitee.io/archives/acc9d925.html"/>
+    <id>https://lsl20.gitee.io/archives/acc9d925.html</id>
+    <published>2020-03-26T20:12:24.000Z</published>
+    <updated>2020-04-09T11:46:23.247Z</updated>
+    
+    <summary type="html">
+    
+      这是一篇加密文章，内容可能是个人情感宣泄或者收费技术。如果你确实想看，请与我联系。
+    
+    </summary>
+    
+    
+      <category term="友邻优课外刊" scheme="https://lsl20.gitee.io/categories/%E5%8F%8B%E9%82%BB%E4%BC%98%E8%AF%BE%E5%A4%96%E5%88%8A/"/>
+    
+    
+      <category term="英语" scheme="https://lsl20.gitee.io/tags/%E8%8B%B1%E8%AF%AD/"/>
+    
+      <category term="外刊" scheme="https://lsl20.gitee.io/tags/%E5%A4%96%E5%88%8A/"/>
+    
+      <category term="单词" scheme="https://lsl20.gitee.io/tags/%E5%8D%95%E8%AF%8D/"/>
+    
+  </entry>
+  
+</feed>

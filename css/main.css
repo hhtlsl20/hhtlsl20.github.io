@@ -1223,7 +1223,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #8a822e;
+  background: #2260ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2625,13 +2625,13 @@ body {
   color: #828282;
 }
 .content-wrap {
-  opacity: 0.9;
+  opacity: 0.95;
 }
 .sidebar {
-  opacity: 0.9;
+  opacity: 0.85;
 }
 .header-inner {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.95);
 }
 .popup {
   opacity: 0.9;

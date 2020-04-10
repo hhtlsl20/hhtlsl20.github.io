@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"lsl20.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="学习上的一些坑记录">
+  <meta name="description" content="贵理工大三学生">
 <meta property="og:type" content="website">
-<meta property="og:title" content="海涛博客">
+<meta property="og:title" content="海涛的博客">
 <meta property="og:url" content="https://lsl20.gitee.io/archives/2020/index.html">
-<meta property="og:site_name" content="海涛博客">
-<meta property="og:description" content="学习上的一些坑记录">
+<meta property="og:site_name" content="海涛的博客">
+<meta property="og:description" content="贵理工大三学生">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="海涛">
 <meta property="article:tag" content="博客，IT">
@@ -44,7 +44,7 @@
   };
 </script>
 
-  <title>归档 | 海涛博客</title>
+  <title>归档 | 海涛的博客</title>
   
 
 
@@ -205,7 +205,7 @@
     };
     loaded();
 })()
- </script><link rel="alternate" href="/atom.xml" title="海涛博客" type="application/atom+xml">
+ </script><link rel="alternate" href="/atom.xml" title="海涛的博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -226,7 +226,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">海涛博客</h1>
+      <h1 class="site-title">海涛的博客</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">个人笔记</p>
@@ -513,7 +513,7 @@ WIDGET = {FID: 'DwfDcDTP6Q'}
     <img class="site-author-image" itemprop="image" alt="海涛"
       src="/images/avatar1.gif">
   <p class="site-author-name" itemprop="name">海涛</p>
-  <div class="site-description" itemprop="description">学习上的一些坑记录</div>
+  <div class="site-description" itemprop="description">贵理工大三学生</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -540,7 +540,19 @@ WIDGET = {FID: 'DwfDcDTP6Q'}
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
+        <a href="https://github.com/hhtlsl20" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hhtlsl20" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
         <a href="mailto:490840648@qq.com" title="E-Mail → mailto:490840648@qq.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com/" title="Google → https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-google"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/hanhaitao0809" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;hanhaitao0809" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-cc"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-youtube"></i>YouTube</a>
       </span>
       <span class="links-of-author-item">
         <a href="https://www.instagram.com/hai_tao_2021/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;hai_tao_2021&#x2F;" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
@@ -662,92 +674,6 @@ translateInitilization();
 
 
 
-<script>
-  (function() {
-    function leancloudSelector(url) {
-      url = encodeURI(url);
-      return document.getElementById(url).querySelector('.leancloud-visitors-count');
-    }
-
-    function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.id);
-      var title = visitors.dataset.flagTitle;
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length > 0) {
-            var counter = results[0];
-            leancloudSelector(url).innerText = counter.time + 1;
-            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
-              .catch(error => {
-                console.error('Failed to save visitor count', error);
-              });
-          } else {
-              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
-              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
-            
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
-        return decodeURI(element.id);
-      });
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          for (let url of entries) {
-            let target = results.find(item => item.url === url);
-            leancloudSelector(url).innerText = target ? target.time : 0;
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"LWamt8vx1JGEs9ji6vEdxOQL-gzGzoHsz","app_key":"76tER6xs3NW4vkb9DRLsMzwp","server_url":null,"security":true,"betterPerformance":true};
-    function fetchData(api_server) {
-      var Counter = (method, url, data) => {
-        return fetch(`${api_server}/1.1${url}`, {
-          method,
-          headers: {
-            'X-LC-Id'     : app_id,
-            'X-LC-Key'    : app_key,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
-      if (CONFIG.page.isPost) {
-        if (CONFIG.hostname !== location.hostname) return;
-        addCount(Counter);
-      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
-        showTime(Counter);
-      }
-    }
-
-    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
-
-    if (api_server) {
-      fetchData(api_server);
-    } else {
-      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
-        .then(response => response.json())
-        .then(({ api_server }) => {
-          fetchData('https://' + api_server);
-        });
-    }
-  })();
-</script>
 
 
       </div>
@@ -817,12 +743,11 @@ translateInitilization();
   
 
 
-
 <script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
-    var guest = '';
+    var guest = 'nick,mail,link';
     guest = guest.split(',').filter(item => {
       return GUEST.includes(item);
     });
@@ -832,14 +757,14 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       notify     : false,
       appId      : 'LWamt8vx1JGEs9ji6vEdxOQL-gzGzoHsz',
       appKey     : '76tER6xs3NW4vkb9DRLsMzwp',
-      placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
-      avatar     : '',
+      placeholder: "欢迎留言交流讨论...需填写昵称及邮箱，网址可忽略",
+      avatar     : 'mm',
       meta       : guest,
-      pageSize   : '' || 10,
-      visitor    : ,
-      lang       : '' || 'zh-cn',
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
       path       : location.pathname,
-      recordIP   : ,
+      recordIP   : true,
       serverURLs : ''
     });
   }, window.Valine);

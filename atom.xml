@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>海涛博客</title>
+  <title>海涛的博客</title>
   <icon>https://lsl20.gitee.io/icon.png</icon>
   <subtitle>个人笔记</subtitle>
   <link href="/atom.xml" rel="self"/>

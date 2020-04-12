@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://lsl20.gitee.io/top/index.html</loc>
+    
+    <lastmod>2020-04-11T12:46:39.985Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://lsl20.gitee.io/about/index.html</loc>
+    
+    <lastmod>2020-04-11T12:46:11.099Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://lsl20.gitee.io/archives/68cab7ad.html</loc>
     
     <lastmod>2020-04-10T01:36:49.698Z</lastmod>
@@ -30,23 +44,9 @@
   </url>
   
   <url>
-    <loc>https://lsl20.gitee.io/top/index.html</loc>
-    
-    <lastmod>2020-04-09T11:33:43.337Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://lsl20.gitee.io/gallery/index.html</loc>
     
     <lastmod>2020-04-09T09:59:30.669Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://lsl20.gitee.io/about/index.html</loc>
-    
-    <lastmod>2020-04-09T09:16:53.385Z</lastmod>
     
   </url>
   
